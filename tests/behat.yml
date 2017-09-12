@@ -1,0 +1,65 @@
+default:
+  suites:
+    default:
+      paths:
+        - %paths.base%/features/default
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+      filters:
+        tags: "@insidenet"
+    configuration:
+      paths:
+        - %paths.base%/features/configuration
+      contexts:
+        - ConfigurationContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+      filters:
+        tags: "@insidenet"
+    contenttypes:
+      paths:
+        - %paths.base%/features/contenttypes
+      contexts:
+        - ContentTypesContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+      filters:
+        tags: "@insidenet"
+    taxonomy:
+      paths:
+        - %paths.base%/features/taxonomy
+      contexts:
+        - TaxonomyContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+      filters:
+        tags: "@insidenet"
+
+  extensions:
+    Behat\MinkExtension:
+      goutte:
+        guzzle_parameters:
+          verify: false
+      selenium2:
+        browser: 'firefox'
+        wd_host: 'http://localhost:4444/wd/hub'
+      base_url: http://drupal-behat.localhost
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: '/var/www/sites/drupal-behat.localhost/docroot'
+      drush:
+        alias: 'default.dev'
+      region_map:
+        branding: '.site-branding'
+        primary tabs: '.tabs .primary'
+      selectors:
+         message_selector: '.messages'
+         error_message_selector: '.messages.messages--error'
+         success_message_selector: '.messages.messages--status'
+
